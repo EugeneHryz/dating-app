@@ -1,0 +1,32 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+allprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        google()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        google()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.3'
+    }
+    ext {
+        dagger_version = "2.41"
+        apache_commons_lang_version = "3.12.0"
+        okhttp_version = "3.12.13"
+        jackson_version = "2.13.0"
+        obfs4proxy_version = "0.0.12"
+        junit_version = "4.13.2"
+        jmock_version = '2.12.0'
+    }
+}
