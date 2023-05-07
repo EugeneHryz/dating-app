@@ -1,5 +1,6 @@
 package com.example.datingapp.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.datingapp.R;
 import com.example.datingapp.activity.ActivityComponent;
 import com.example.datingapp.activity.BaseActivity;
+import com.example.datingapp.login.StartupActivity;
 
 import javax.inject.Inject;
 
@@ -53,7 +55,7 @@ public class HomeActivity extends BaseActivity {
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-//        showInitialFragment(new ContactListFragment());
+        viewModel.getState().observe(this, this::handleStateChange);
     }
 
     private Toolbar setupToolbar() {
@@ -65,5 +67,17 @@ public class HomeActivity extends BaseActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
         return toolbar;
+    }
+
+    private void handleStateChange(HomeViewModel.State state) {
+        if (state == HomeViewModel.State.NOT_AUTHENTICATED) {
+            startStartupActivity();
+        }
+    }
+
+    private void startStartupActivity() {
+        Intent intent = new Intent(this, StartupActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
