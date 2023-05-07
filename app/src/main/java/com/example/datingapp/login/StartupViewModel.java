@@ -1,8 +1,15 @@
 package com.example.datingapp.login;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.datingapp.client.Constants;
+import com.example.datingapp.client.auth.AuthenticatedUser;
+import com.example.datingapp.client.auth.AuthenticationService;
+import com.example.datingapp.client.auth.LoginRequest;
+import com.example.datingapp.client.token.TokenService;
 import com.example.datingapp.io.IoExecutor;
 import com.example.datingapp.lifecycle.LifecycleManager;
 
@@ -10,17 +17,23 @@ import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class StartupViewModel extends ViewModel {
 
     private static final String TAG = StartupViewModel.class.getName();
 
     private final Executor ioExecutor;
     private final LifecycleManager lifecycleManager;
+    private final AuthenticationService authService;
+    private final TokenService tokenService;
 
     enum State {
-        INVALID_PASSWORD,
-        NON_EXISTING_USER,
-        SIGNING_IN,
+        NETWORK_ERROR,
+        LOG_IN_FAILED,
+        LOGGING_IN,
         LOGGED_IN,
         LOGGED_OUT
     }
@@ -29,20 +42,47 @@ public class StartupViewModel extends ViewModel {
 
     @Inject
     public StartupViewModel(@IoExecutor Executor ioExecutor,
-                            LifecycleManager lifecycleManager) {
+                            LifecycleManager lifecycleManager,
+                            AuthenticationService authService,
+                            TokenService tokenService) {
         this.ioExecutor = ioExecutor;
         this.lifecycleManager = lifecycleManager;
+        this.authService = authService;
+        this.tokenService = tokenService;
     }
 
     void signIn(String login, String password) {
-        // TODO: make authentication request to the server
-        if (!login.equals("zhenya")) {
-            state.postValue(State.NON_EXISTING_USER);
-        } else if (!password.equals("qwertyui")) {
-            state.postValue(State.INVALID_PASSWORD);
-        } else {
-            state.postValue(State.LOGGED_IN);
-        }
+        ioExecutor.execute(() -> {
+
+            state.postValue(State.LOGGING_IN);
+
+            tokenService.deleteToken();
+            LoginRequest loginRequest = new LoginRequest(login, password);
+            authService.login(loginRequest).enqueue(new Callback<AuthenticatedUser>() {
+                @Override
+                public void onResponse(Call<AuthenticatedUser> call, Response<AuthenticatedUser> response) {
+                    if (response.code() == Constants.HTTP_SUCCESS) {
+                        AuthenticatedUser user = response.body();
+                        if (user != null) {
+                            tokenService.updateToken(user.getToken());
+                            state.postValue(State.LOGGED_IN);
+                        }
+                    } else if (response.code() == Constants.HTTP_FORBIDDEN) {
+                        Log.d(TAG, "Username not found or provided password is invalid");
+                        state.postValue(State.LOG_IN_FAILED);
+                    } else {
+                        Log.d(TAG, "Unable to login. Status code: " + response.code());
+                        state.postValue(State.LOG_IN_FAILED);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AuthenticatedUser> call, Throwable t) {
+                    Log.d(TAG, "Failed to perform a login request", t);
+                    state.postValue(State.NETWORK_ERROR);
+                }
+            });
+        });
     }
 
     public MutableLiveData<State> getState() {
