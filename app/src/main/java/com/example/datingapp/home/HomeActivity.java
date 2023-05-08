@@ -56,6 +56,8 @@ public class HomeActivity extends BaseActivity {
         drawerToggle.syncState();
 
         viewModel.getState().observe(this, this::handleStateChange);
+
+        showInitialFragment(new TestFragment());
     }
 
     private Toolbar setupToolbar() {

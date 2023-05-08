@@ -2,10 +2,11 @@ package com.example.datingapp.activity;
 
 import com.example.datingapp.ApplicationComponent;
 import com.example.datingapp.home.HomeActivity;
+import com.example.datingapp.home.TestFragment;
 import com.example.datingapp.login.LogInFragment;
 import com.example.datingapp.login.StartupActivity;
-import com.example.datingapp.signup.SignUpFragment;
 import com.example.datingapp.signup.SignUpActivity;
+import com.example.datingapp.signup.SignUpFragment;
 import com.example.datingapp.splash.SplashScreenActivity;
 
 import dagger.Component;
@@ -26,4 +27,6 @@ public interface ActivityComponent {
     void inject(SignUpFragment fragment);
 
     void inject(LogInFragment fragment);
+
+    void inject(TestFragment fragment);
 }
