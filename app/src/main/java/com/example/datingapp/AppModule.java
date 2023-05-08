@@ -1,6 +1,7 @@
 package com.example.datingapp;
 
 import android.app.Application;
+import android.content.Context;
 
 import javax.inject.Singleton;
 
@@ -19,6 +20,12 @@ public class AppModule {
     @Provides
     @Singleton
     public Application provideApplication() {
+        return application;
+    }
+
+    @Provides
+    @Singleton
+    public Context provideContext() {
         return application;
     }
 }

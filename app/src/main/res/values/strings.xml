@@ -14,6 +14,8 @@
     <string name="login_already_exists">Account with that login already exists</string>
     <string name="set_password_hint">Enter your password</string>
     <string name="confirm_password_hint">Confirm your password</string>
+    <string name="auth_token_shared_prefs_filename">com.example.datingapp.AUTH_TOKEN</string>
+    <string name="auth_token_key">AUTH_TOKEN</string>
 
     <string name="password_too_short">Password must be at least 8 characters long</string>
     <string name="passwords_not_equal">Passwords do not match</string>
@@ -24,6 +26,8 @@
     <string name="medium_password">Medium strength password</string>
     <string name="strong_password">Strong password</string>
     <string name="very_strong_password">Very strong password</string>
+    <string name="invalid_password_or_non_existing_user">Invalid password or account with that username doesn\'t exist</string>
+    <string name="unable_to_get_response">Unable to get response from the server</string>
     <string name="invalid_password">Invalid password</string>
     <string name="non_existing_user">Account with that username does not exist</string>
 
@@ -34,15 +38,8 @@
     <string name="open_drawer_desc">Open navigation drawer</string>
     <string name="close_drawer_desc">Close navigation drawer</string>
 
-    <string name="bluetooth_transport">Bluetooth</string>
-    <string name="wifi_transport">Wi-Fi</string>
-
     <string name="add_contact_intro_message">In order to communicate with someone you both need to add each other to your contact lists.\nTo do this you need to meet in person with your peer and scan each other\'s qr codes.\n\nPlease, provide all necessary permissions</string>
 
-    <string name="no_contacts_description">You haven\'t added any contacts yet</string>
-    <string name="no_messages_description">You have no messages to show</string>
-
-    <string name="new_message_hint">Enter new message</string>
     <string name="options_menu_item">Options</string>
 
     <string name="dialog_title_notice">Notice</string>

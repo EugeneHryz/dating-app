@@ -34,7 +34,6 @@ android {
 }
 
 dependencies {
-    implementation "com.google.dagger:dagger:$dagger_version"
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -57,9 +56,15 @@ dependencies {
     implementation "androidx.work:work-runtime:2.6.0"
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
-    implementation "com.vanniktech:emoji-ios:0.6.0"
 
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:dagger:$dagger_version"
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    implementation "com.vanniktech:emoji-ios:0.6.0"
+    implementation "org.apache.commons:commons-lang3:$apache_commons_lang_version"
 
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

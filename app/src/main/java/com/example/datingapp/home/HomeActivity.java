@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
@@ -26,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.datingapp.R;
 import com.example.datingapp.activity.ActivityComponent;
 import com.example.datingapp.activity.BaseActivity;
+import com.example.datingapp.login.StartupActivity;
 import com.example.datingapp.geolocation.GeolocationService;
 import com.example.datingapp.geolocation.LocationRequestDto;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -116,7 +118,7 @@ public class HomeActivity extends BaseActivity implements
         };
         getLocationPermission();
 
-//        showInitialFragment(new ContactListFragment());
+        viewModel.getState().observe(this, this::handleStateChange);
     }
 
     @Override
@@ -236,6 +238,18 @@ public class HomeActivity extends BaseActivity implements
             actionBar.setDisplayShowHomeEnabled(true);
         }
         return toolbar;
+    }
+
+    private void handleStateChange(HomeViewModel.State state) {
+        if (state == HomeViewModel.State.NOT_AUTHENTICATED) {
+            startStartupActivity();
+        }
+    }
+
+    private void startStartupActivity() {
+        Intent intent = new Intent(this, StartupActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void sendRequestToServer(Location location) {

@@ -1,7 +1,6 @@
 package com.example.datingapp.signup;
 
 import android.os.Bundle;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -141,16 +140,23 @@ public class SignUpFragment extends BaseFragment {
     }
 
     private void handleStateChange(SignUpViewModel.State state) {
-        boolean enabledInputs = (state != SignUpViewModel.State.CREATING);
+        boolean inputsEnabled = (state != SignUpViewModel.State.CREATING);
 
-        if (state == SignUpViewModel.State.CREATING || state == SignUpViewModel.State.FAILED) {
-            loginInputLayout.setEnabled(enabledInputs);
-            passwordInputLayout.setEnabled(enabledInputs);
-            confirmPasswordInputLayout.setEnabled(enabledInputs);
-            nextButton.setEnabled(enabledInputs);
-        }
-        if (state == SignUpViewModel.State.LOGIN_ALREADY_EXISTS) {
+        loginInputLayout.setEnabled(inputsEnabled);
+        passwordInputLayout.setEnabled(inputsEnabled);
+        confirmPasswordInputLayout.setEnabled(inputsEnabled);
+        nextButton.setEnabled(inputsEnabled);
+        clearAllErrors();
+
+        if (state == SignUpViewModel.State.USERNAME_ALREADY_EXISTS) {
             loginInputLayout.setError(getString(R.string.login_already_exists));
+        } else if (state == SignUpViewModel.State.NETWORK_ERROR) {
+            confirmPasswordInputLayout.setError(getString(R.string.unable_to_get_response));
         }
+    }
+
+    private void clearAllErrors() {
+        loginInputLayout.setError(null);
+        confirmPasswordInputLayout.setError(null);
     }
 }

@@ -105,25 +105,18 @@ public class LogInFragment extends BaseFragment implements TextWatcher {
     }
 
     private void handleStateChange(StartupViewModel.State state) {
-        if (state == StartupViewModel.State.NON_EXISTING_USER) {
+        boolean inputsEnabled = state != StartupViewModel.State.LOGGING_IN;
+        logInButton.setEnabled(inputsEnabled);
+        loginInputLayout.setEnabled(inputsEnabled);
+        passwordInputLayout.setEnabled(inputsEnabled);
+
+        if (state == StartupViewModel.State.LOG_IN_FAILED) {
             passwordInput.getText().clear();
             loginInput.getText().clear();
-            logInButton.setEnabled(true);
-            loginInputLayout.setEnabled(true);
-            passwordInputLayout.setEnabled(true);
-            loginInputLayout.setError(getString(R.string.non_existing_user));
+            passwordInputLayout.setError(getString(R.string.invalid_password_or_non_existing_user));
 
-        } else if (state == StartupViewModel.State.INVALID_PASSWORD) {
-            passwordInput.getText().clear();
-            logInButton.setEnabled(true);
-            loginInputLayout.setEnabled(true);
-            passwordInputLayout.setEnabled(true);
-            passwordInputLayout.setError(getString(R.string.invalid_password));
-
-        } else if (state == StartupViewModel.State.SIGNING_IN) {
-            logInButton.setEnabled(false);
-            loginInputLayout.setEnabled(false);
-            passwordInputLayout.setEnabled(false);
+        } else if (state == StartupViewModel.State.NETWORK_ERROR) {
+            passwordInputLayout.setError(getString(R.string.unable_to_get_response));
         }
     }
 }
