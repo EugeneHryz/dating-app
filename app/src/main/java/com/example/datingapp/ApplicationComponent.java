@@ -9,6 +9,7 @@ import com.example.datingapp.io.IoExecutor;
 import com.example.datingapp.io.IoExecutorModule;
 import com.example.datingapp.lifecycle.LifecycleManager;
 import com.example.datingapp.lifecycle.LifecycleModule;
+import com.example.datingapp.service.LocationUpdateService;
 import com.example.datingapp.system.AndroidSystemModule;
 import com.example.datingapp.viewmodel.ViewModelModule;
 
@@ -38,4 +39,6 @@ public interface ApplicationComponent {
     Executor ioExecutor();
 
     void inject(MessengerApplicationImpl app);
+
+    void inject(LocationUpdateService service);
 }
