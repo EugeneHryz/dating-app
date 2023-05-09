@@ -25,6 +25,7 @@ import com.example.datingapp.client.Constants;
 import com.example.datingapp.client.geolocation.GeolocationService;
 import com.example.datingapp.client.geolocation.LocationRequestDto;
 import com.example.datingapp.home.HomeActivity;
+import com.example.datingapp.io.IoExecutor;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -32,6 +33,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
 import java.time.Instant;
+import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 
@@ -53,6 +55,9 @@ public class LocationUpdateService extends Service {
 
     @Inject
     GeolocationService geolocationService;
+    @Inject
+    @IoExecutor
+    Executor ioExecutor;
 
     @Nullable
     @Override
@@ -115,33 +120,35 @@ public class LocationUpdateService extends Service {
     }
 
     private void sendLocationUpdate(Location location) {
-        LocationRequestDto locationRequest = mapToLocationRequestDto(location);
+        ioExecutor.execute(() -> {
+            LocationRequestDto locationRequest = mapToLocationRequestDto(location);
 
-        geolocationService.updateLocation(locationRequest).enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.code() != Constants.HTTP_SUCCESS) {
+            geolocationService.updateLocation(locationRequest).enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.code() != Constants.HTTP_SUCCESS) {
+                        StringBuilder messageBuilder = new StringBuilder();
+                        messageBuilder.append(getString(R.string.unable_to_update_location))
+                                .append(" HTTP status: ")
+                                .append(response.code());
+
+                        Toast.makeText(LocationUpdateService.this,
+                                        messageBuilder.toString(), Toast.LENGTH_LONG)
+                                .show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
                     StringBuilder messageBuilder = new StringBuilder();
-                    messageBuilder.append(getString(R.string.unable_to_update_location))
-                            .append(" HTTP status: ")
-                            .append(response.code());
+                    messageBuilder.append(getString(R.string.unable_to_get_response))
+                            .append(" Error: ")
+                            .append(t.getMessage());
 
                     Toast.makeText(LocationUpdateService.this,
                                     messageBuilder.toString(), Toast.LENGTH_LONG)
                             .show();
                 }
-            }
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                StringBuilder messageBuilder = new StringBuilder();
-                messageBuilder.append(getString(R.string.unable_to_get_response))
-                        .append(" Error: ")
-                        .append(t.getMessage());
-
-                Toast.makeText(LocationUpdateService.this,
-                                messageBuilder.toString(), Toast.LENGTH_LONG)
-                        .show();
-            }
+            });
         });
     }
 
