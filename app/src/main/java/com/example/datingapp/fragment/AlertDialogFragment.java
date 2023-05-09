@@ -38,14 +38,16 @@ public class AlertDialogFragment extends DialogFragment {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext())
                 .setTitle(titleResId)
                 .setMessage(messageResId)
-                .setPositiveButton(R.string.dialog_ok_button, (dialog, which) -> {});
+                .setPositiveButton(R.string.dialog_ok_button, (dialog, which) -> {
+                    listener.onOk();
+                });
 
         return dialogBuilder.create();
     }
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
-        listener.onDialogDismissed();
+        listener.onDismissed();
         super.onDismiss(dialog);
     }
 }

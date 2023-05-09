@@ -1,6 +1,7 @@
 package com.example.datingapp.client;
 
 import com.example.datingapp.client.auth.AuthenticationService;
+import com.example.datingapp.client.geolocation.GeolocationService;
 import com.example.datingapp.client.token.TokenService;
 import com.example.datingapp.client.token.TokenServiceImpl;
 
@@ -27,5 +28,10 @@ public class ClientModule {
     @Provides
     public AuthenticationService provideAuthenticationService(Retrofit retrofit) {
         return retrofit.create(AuthenticationService.class);
+    }
+
+    @Provides
+    public GeolocationService provideGeolocationService(Retrofit retrofit) {
+        return retrofit.create(GeolocationService.class);
     }
 }

@@ -16,6 +16,8 @@
     <string name="confirm_password_hint">Confirm your password</string>
     <string name="auth_token_shared_prefs_filename">com.example.datingapp.AUTH_TOKEN</string>
     <string name="auth_token_key">AUTH_TOKEN</string>
+    <string name="location_is_disabled">Location is disabled</string>
+    <string name="enable_location_suggestion">Would you like to enable it?</string>
 
     <string name="password_too_short">Password must be at least 8 characters long</string>
     <string name="passwords_not_equal">Passwords do not match</string>
@@ -28,6 +30,7 @@
     <string name="very_strong_password">Very strong password</string>
     <string name="invalid_password_or_non_existing_user">Invalid password or account with that username doesn\'t exist</string>
     <string name="unable_to_get_response">Unable to get response from the server</string>
+    <string name="unable_to_update_location">Unable to update user location</string>
     <string name="invalid_password">Invalid password</string>
     <string name="non_existing_user">Account with that username does not exist</string>
 
