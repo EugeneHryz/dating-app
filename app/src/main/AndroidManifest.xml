@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include only if your app benefits from precise location access. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name="com.example.datingapp.MessengerApplicationImpl"
         android:allowBackup="true"
@@ -13,18 +18,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config">
+        android:theme="@style/AppTheme">
+        <service
+            android:name="com.example.datingapp.service.LocationUpdateService"
+            android:enabled="true"
+            android:exported="true"
+           ></service>
 
         <activity
             android:name="com.example.datingapp.splash.SplashScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.example.datingapp.searchpeople.SearchPeopleActivity"
             android:label="@string/search_people_activity_name"
@@ -32,17 +42,15 @@
 
         <activity
             android:name="com.example.datingapp.signup.SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="false" />
-
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.datingapp.login.StartupActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="false"/>
-
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.datingapp.home.HomeActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
 
 <!--        <provider-->
