@@ -1,19 +1,18 @@
 package com.example.datingapp.client.geolocation;
 
-import java.time.Instant;
-
 public class LocationRequestDto {
 
     private String latitude;
     private String longitude;
-    private Instant timestamp;
+    private long timestamp;
 
     public LocationRequestDto() {
     }
 
-    public LocationRequestDto(String latitude, String longitude, Instant timestamp) {
+    public LocationRequestDto(String latitude, String longitude, long timestamp) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.timestamp = timestamp;
     }
 
     public String getLatitude() {
@@ -32,11 +31,11 @@ public class LocationRequestDto {
         this.longitude = longitude;
     }
 
-    public Instant getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Instant timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 }
