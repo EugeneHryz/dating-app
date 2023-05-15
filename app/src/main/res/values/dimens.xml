@@ -2,14 +2,15 @@
 <resources>
 
     <dimen name="splash_image_size">240dp</dimen>
-    <dimen name="empty_list_icon_size">160dp</dimen>
+    <dimen name="visual_cue_icon_size">150dp</dimen>
 
     <dimen name="huge_text_size">32sp</dimen>
     <dimen name="text_size_18">18sp</dimen>
     <dimen name="text_size_20">20sp</dimen>
-    <dimen name="small_text_size">16sp</dimen>
-    <dimen name="tiny_text_size">12sp</dimen>
+    <dimen name="text_size_22">18sp</dimen>
     <dimen name="fab_margin">15dp</dimen>
+    <dimen name="fab_size">66dp</dimen>
+    <dimen name="fab_icon_size">32dp</dimen>
 
     <dimen name="regular_padding">15dp</dimen>
     <dimen name="activity_horizontal_margin">15dp</dimen>
@@ -17,9 +18,9 @@
 
     <dimen name="text_edit_padding">12dp</dimen>
 
-    <dimen name="small_margin">6dp</dimen>
-    <dimen name="medium_margin">10dp</dimen>
-    <dimen name="big_margin">16dp</dimen>
+    <dimen name="small_margin">10dp</dimen>
+    <dimen name="regular_margin">15dp</dimen>
+    <dimen name="big_margin">20dp</dimen>
     <dimen name="button_padding">12dp</dimen>
 
     <dimen name="transport_icon_size">40dp</dimen>

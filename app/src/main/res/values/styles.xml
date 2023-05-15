@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Button.Secondary" parent="AppTheme">
         <item name="colorPrimary">@color/md_theme_light_secondary</item>
@@ -13,6 +12,11 @@
     <style name="TextSize18">
         <item name="android:textSize">@dimen/text_size_18</item>
 <!--        <item name="android:textColor">@android:color/tab_indicator_text</item>-->
+    </style>
+
+    <style name="TextSize22">
+        <item name="android:textSize">@dimen/text_size_22</item>
+        <item name="android:textColor">@color/md_theme_dark_onPrimary</item>
     </style>
 
     <style name="AppTheme.ActionBar.Light" parent="Widget.Material3.Toolbar.OnSurface">
@@ -30,23 +34,23 @@
         <item name="cornerSize">@dimen/fab_corner_radius</item>
     </style>
 
-    <style name="TextMessage">
-        <item name="android:textIsSelectable">true</item>
-        <item name="android:textSize">@dimen/small_text_size</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
+<!--    <style name="TextMessage">-->
+<!--        <item name="android:textIsSelectable">true</item>-->
+<!--        <item name="android:textSize">@dimen/small_text_size</item>-->
+<!--        <item name="android:textColor">?android:attr/textColorPrimary</item>-->
+<!--    </style>-->
 
-    <style name="TextMessage.Time">
-        <item name="android:textIsSelectable">false</item>
-        <item name="android:textSize">@dimen/tiny_text_size</item>
-        <item name="android:textColor">?android:attr/textColorTertiary</item>
-        <item name="android:maxLines">1</item>
-    </style>
+<!--    <style name="TextMessage.Time">-->
+<!--        <item name="android:textIsSelectable">false</item>-->
+<!--        <item name="android:textSize">@dimen/tiny_text_size</item>-->
+<!--        <item name="android:textColor">?android:attr/textColorTertiary</item>-->
+<!--        <item name="android:maxLines">1</item>-->
+<!--    </style>-->
 
-    <style name="TextMessage.Date">
-        <item name="android:textIsSelectable">false</item>
-        <item name="android:textSize">@dimen/small_text_size</item>
-        <item name="android:textColor">?android:attr/textColorTertiary</item>
-        <item name="android:maxLines">1</item>
-    </style>
+<!--    <style name="TextMessage.Date">-->
+<!--        <item name="android:textIsSelectable">false</item>-->
+<!--        <item name="android:textSize">@dimen/small_text_size</item>-->
+<!--        <item name="android:textColor">?android:attr/textColorTertiary</item>-->
+<!--        <item name="android:maxLines">1</item>-->
+<!--    </style>-->
 </resources>

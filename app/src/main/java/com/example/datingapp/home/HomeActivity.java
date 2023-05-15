@@ -14,6 +14,8 @@ import com.example.datingapp.R;
 import com.example.datingapp.activity.ActivityComponent;
 import com.example.datingapp.activity.BaseActivity;
 import com.example.datingapp.login.StartupActivity;
+import com.example.datingapp.searchpeople.SearchPeopleActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
 
@@ -25,6 +27,7 @@ public class HomeActivity extends BaseActivity {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private FloatingActionButton searchPeopleButton;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -46,6 +49,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.home_activity);
 
         drawerLayout = findViewById(R.id.drawer_layout);
+        searchPeopleButton = findViewById(R.id.open_search_activity);
         Toolbar toolbar = setupToolbar();
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -54,10 +58,10 @@ public class HomeActivity extends BaseActivity {
         };
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+        searchPeopleButton.setOnClickListener(v -> startSearchPeopleActivity());
 
         viewModel.getState().observe(this, this::handleStateChange);
 
-        showInitialFragment(new TestFragment());
     }
 
     private Toolbar setupToolbar() {
@@ -75,6 +79,11 @@ public class HomeActivity extends BaseActivity {
         if (state == HomeViewModel.State.NOT_AUTHENTICATED) {
             startStartupActivity();
         }
+    }
+
+    private void startSearchPeopleActivity() {
+        Intent intent = new Intent(this, SearchPeopleActivity.class);
+        startActivity(intent);
     }
 
     private void startStartupActivity() {
