@@ -1,26 +1,38 @@
 package com.example.datingapp.searchpeople;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.datingapp.client.Constants;
 import com.example.datingapp.client.user.UserDto;
+import com.example.datingapp.client.user.UserService;
 import com.example.datingapp.io.IoExecutor;
 import com.example.datingapp.searchpeople.recyclerview.UserItem;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SearchPeopleViewModel extends ViewModel {
+
+    private static final String TAG = SearchPeopleViewModel.class.getName();
 
     private final Executor ioExecutor;
 
+    private final UserService userService;
+
     enum State {
         SEARCHING,
-        FOUND
+        FOUND,
+        NETWORK_ERROR
     }
 
     private final MutableLiveData<State> state = new MutableLiveData<>();
@@ -28,8 +40,9 @@ public class SearchPeopleViewModel extends ViewModel {
     private List<UserDto> users;
 
     @Inject
-    public SearchPeopleViewModel(@IoExecutor Executor ioExecutor) {
+    public SearchPeopleViewModel(@IoExecutor Executor ioExecutor, UserService userService) {
         this.ioExecutor = ioExecutor;
+        this.userService = userService;
     }
 
     public void searchForPeopleNearby() {
@@ -41,8 +54,23 @@ public class SearchPeopleViewModel extends ViewModel {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            populateTestList();
-            state.postValue(State.FOUND);
+            userService.findUsersWithinRadius(6000).enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<List<UserDto>> call, Response<List<UserDto>> response) {
+                    if (response.code() == Constants.HTTP_SUCCESS) {
+                        users = response.body();
+                        state.postValue(State.FOUND);
+                    }
+                    Log.d(TAG, "Response code: " + response.code());
+                }
+
+                @Override
+                public void onFailure(Call<List<UserDto>> call, Throwable t) {
+                    Log.d(TAG, "Failed to perform request for searching users nearby");
+                    state.postValue(State.NETWORK_ERROR);
+                }
+            });
+
         });
     }
 
@@ -52,30 +80,7 @@ public class SearchPeopleViewModel extends ViewModel {
 
     public List<UserItem> getUsers() {
         return users.stream()
-                .map(u -> new UserItem(u.getId(), u.getUsername()))
+                .map(u -> new UserItem(u.getId(), u.getUsername(), u.getDistance()))
                 .collect(Collectors.toList());
-    }
-
-    private void populateTestList() {
-        users = new ArrayList<>();
-
-        users.add(new UserDto(1L, "Zhenya Hryz", 0L));
-        users.add(new UserDto(2L, "Maxim Ivashchenko", 0L));
-        users.add(new UserDto(3L, "HHHH akalla", 0L));
-        users.add(new UserDto(4L, "Dmitriy Orlov", 0L));
-        users.add(new UserDto(5L, "UUUUoaa qqqq", 0L));
-        users.add(new UserDto(6L, "Dmitriy Orlov", 0L));
-        users.add(new UserDto(7L, "Dmitriy Orlov1", 0L));
-        users.add(new UserDto(8L, "Dmitridy Orlov", 0L));
-        users.add(new UserDto(9L, "Dmitriy Ordlov", 0L));
-        users.add(new UserDto(10L, "Dmitriy Orlov", 0L));
-        users.add(new UserDto(11L, "Dmitrdiy Orlov", 0L));
-        users.add(new UserDto(12L, "Dmiffftriy Orlov", 0L));
-        users.add(new UserDto(13L, "Dmitriy Orslov", 0L));
-        users.add(new UserDto(14L, "Dmitriy Orlov", 0L));
-        users.add(new UserDto(15L, "Dmitriy Osrlov", 0L));
-        users.add(new UserDto(16L, "Dmitriy Orslov", 0L));
-        users.add(new UserDto(17L, "Dmistriy Orlsov", 0L));
-        users.add(new UserDto(18L, "Dmitriy Orlov", 0L));
     }
 }

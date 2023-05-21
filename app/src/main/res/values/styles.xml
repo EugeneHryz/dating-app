@@ -19,6 +19,10 @@
         <item name="android:textColor">@color/md_theme_dark_onPrimary</item>
     </style>
 
+    <style name="TextSize22.gray">
+        <item name="android:textColor">@color/md_theme_dark_outline</item>
+    </style>
+
     <style name="AppTheme.ActionBar.Light" parent="Widget.Material3.Toolbar.OnSurface">
         <item name="android:background">@color/md_theme_light_primary</item>
         <item name="titleTextColor">@color/md_theme_light_onPrimary</item>

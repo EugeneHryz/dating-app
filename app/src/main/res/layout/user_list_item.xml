@@ -16,7 +16,7 @@
         android:background="?android:attr/selectableItemBackground">
 
         <TextView
-            android:id="@+id/contact_name"
+            android:id="@+id/username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
@@ -25,8 +25,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/distance"
+            android:layout_marginEnd="16dp"
             tools:text="Contact name placeholder"/>
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textAppearance="@style/TextSize22.gray"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="viewEnd"
+            tools:text="10 m"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

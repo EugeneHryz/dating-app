@@ -38,12 +38,14 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull UserListItemViewHolder holder, int position) {
         View view = holder.getView();
-        TextView name = view.findViewById(R.id.contact_name);
+        TextView name = view.findViewById(R.id.username);
+//        TextView distance = view.findViewById(R.id.distance);
 
         if (position >= items.size()) return;
 
         UserItem item = items.get(position);
         name.setText(item.getName());
+//        distance.setText(item.getDistance());
 //        view.setOnClickListener(v -> callback.onContactItemClicked(item.getId()));
     }
 

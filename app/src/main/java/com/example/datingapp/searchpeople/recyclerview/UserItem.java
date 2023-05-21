@@ -6,13 +6,15 @@ public class UserItem {
 
     private Long id;
     private String name;
+    private Long distance;
 
     public UserItem() {
     }
 
-    public UserItem(Long id, String name) {
+    public UserItem(Long id, String name, Long distance) {
         this.id = id;
         this.name = name;
+        this.distance = distance;
     }
 
     public Long getId() {
@@ -31,16 +33,26 @@ public class UserItem {
         this.name = name;
     }
 
+    public Long getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Long distance) {
+        this.distance = distance;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserItem that = (UserItem) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
+        UserItem userItem = (UserItem) o;
+        return Objects.equals(id, userItem.id)
+                && Objects.equals(name, userItem.name)
+                && Objects.equals(distance, userItem.distance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, distance);
     }
 }
