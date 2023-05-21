@@ -4,6 +4,7 @@ import com.example.datingapp.client.auth.AuthenticationService;
 import com.example.datingapp.client.geolocation.GeolocationService;
 import com.example.datingapp.client.token.TokenService;
 import com.example.datingapp.client.token.TokenServiceImpl;
+import com.example.datingapp.client.user.UserService;
 
 import javax.inject.Singleton;
 
@@ -33,5 +34,10 @@ public class ClientModule {
     @Provides
     public GeolocationService provideGeolocationService(Retrofit retrofit) {
         return retrofit.create(GeolocationService.class);
+    }
+
+    @Provides
+    public UserService provideUserService(Retrofit retrofit) {
+        return retrofit.create(UserService.class);
     }
 }

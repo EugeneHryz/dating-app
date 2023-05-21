@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/intro_to_search_icon"
+        android:layout_width="@dimen/visual_cue_icon_size"
+        android:layout_height="@dimen/visual_cue_icon_size"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/round_location_on_24" />
+
+    <TextView
+        android:id="@+id/intro_to_search_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:textAppearance="@style/TextSize22"
+        android:textAlignment="center"
+        android:text="@string/intro_to_search_description"/>
+
+</LinearLayout>

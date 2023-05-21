@@ -31,6 +31,8 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
+import com.example.datingapp.searchpeople.SearchPeopleActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
 
@@ -42,6 +44,7 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private FloatingActionButton searchPeopleButton;
 
     private boolean requestedEnableLocation;
 
@@ -58,6 +61,7 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
         drawerLayout = findViewById(R.id.drawer_layout);
+        searchPeopleButton = findViewById(R.id.open_search_activity);
         Toolbar toolbar = setupToolbar();
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -66,6 +70,7 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
         };
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+        searchPeopleButton.setOnClickListener(v -> startSearchPeopleActivity());
 
         viewModel.getState().observe(this, this::handleStateChange);
 
@@ -199,6 +204,11 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
         if (state == HomeViewModel.State.NOT_AUTHENTICATED) {
             startStartupActivity();
         }
+    }
+
+    private void startSearchPeopleActivity() {
+        Intent intent = new Intent(this, SearchPeopleActivity.class);
+        startActivity(intent);
     }
 
     private void startStartupActivity() {

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.datingapp.home.HomeViewModel;
 import com.example.datingapp.login.StartupViewModel;
+import com.example.datingapp.searchpeople.SearchPeopleViewModel;
 import com.example.datingapp.signup.SignUpViewModel;
 
 import javax.inject.Singleton;
@@ -35,6 +36,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ClassKey(HomeViewModel.class)
     public abstract ViewModel bindHomeViewModel(HomeViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ClassKey(SearchPeopleViewModel.class)
+    public abstract ViewModel bindSearchPeopleViewModel(SearchPeopleViewModel viewModel);
 
     @Binds
     @Singleton

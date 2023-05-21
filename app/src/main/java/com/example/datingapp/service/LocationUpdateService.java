@@ -32,7 +32,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
-import java.time.Instant;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
@@ -155,9 +154,8 @@ public class LocationUpdateService extends Service {
     private LocationRequestDto mapToLocationRequestDto(Location location) {
         String latitude = String.valueOf(location.getLatitude());
         String longitude = String.valueOf(location.getLongitude());
-        Instant timestamp = Instant.ofEpochMilli(location.getTime());
 
-        return new LocationRequestDto(latitude, longitude, timestamp);
+        return new LocationRequestDto(latitude, longitude, location.getTime());
     }
 
     private void prepareForegroundNotification() {

@@ -2,6 +2,7 @@
     <string name="app_name">Dating app</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="add_contact_activity_name">Add contact</string>
+    <string name="search_people_activity_name">People nearby</string>
 
     <string name="enter_login_hint">Enter your login</string>
     <string name="enter_nickname_hint">Enter your nickname</string>
@@ -40,6 +41,11 @@
 
     <string name="open_drawer_desc">Open navigation drawer</string>
     <string name="close_drawer_desc">Close navigation drawer</string>
+
+    <string name="searching_text">Searching...</string>
+    <string name="start_search_action">Start search</string>
+    <string name="intro_to_search_description">To search people nearby press Start search button</string>
+    <string name="no_people_nearby">No people found nearby</string>
 
     <string name="add_contact_intro_message">In order to communicate with someone you both need to add each other to your contact lists.\nTo do this you need to meet in person with your peer and scan each other\'s qr codes.\n\nPlease, provide all necessary permissions</string>
 

@@ -36,6 +36,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.example.datingapp.searchpeople.SearchPeopleActivity"
+            android:label="@string/search_people_activity_name"
+            android:exported="false" />
+
+        <activity
             android:name="com.example.datingapp.signup.SignUpActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />

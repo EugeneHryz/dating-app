@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.datingapp.view.MessengerRecyclerView
+        android:id="@+id/people_nearby_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.example.datingapp.view.SearchingAnimation
+        android:id="@+id/searching_animation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/intro_to_search_layout"
+        layout="@layout/intro_to_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingHorizontal="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="30dp"/>
+
+    <Button
+        android:id="@+id/start_search_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/regular_margin"
+        android:layout_gravity="bottom"
+        android:text="@string/start_search_action" />
+
+</FrameLayout>
