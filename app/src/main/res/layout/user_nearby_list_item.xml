@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/distance"
             android:layout_marginEnd="16dp"
-            tools:text="Contact name placeholder"/>
+            tools:text="User name placeholder"/>
 
         <TextView
             android:id="@+id/distance"

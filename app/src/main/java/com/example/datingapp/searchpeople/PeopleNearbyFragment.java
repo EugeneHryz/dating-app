@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.datingapp.R;
 import com.example.datingapp.activity.ActivityComponent;
+import com.example.datingapp.fragment.AlertDialogFragment;
 import com.example.datingapp.fragment.BaseFragment;
+import com.example.datingapp.fragment.DialogResultListener;
+import com.example.datingapp.searchpeople.recyclerview.UserItem;
 import com.example.datingapp.searchpeople.recyclerview.UserListAdapter;
 import com.example.datingapp.view.MessengerRecyclerView;
 import com.example.datingapp.view.SearchingAnimation;
@@ -40,7 +43,7 @@ public class PeopleNearbyFragment extends BaseFragment {
     @Override
     protected void injectFragment(ActivityComponent activityComponent) {
         activityComponent.inject(this);
-        viewModel = new ViewModelProvider(this, viewModelFactory).get(SearchPeopleViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(SearchPeopleViewModel.class);
     }
 
     @Nullable
@@ -83,8 +86,37 @@ public class PeopleNearbyFragment extends BaseFragment {
         userListView.setNoItemsDescription(R.string.no_people_nearby);
 
         userListView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        adapter = new UserListAdapter(null);
+        adapter = new UserListAdapter(userItem -> openAddContactDialog(userItem));
 
         userListView.setAdapter(adapter);
+    }
+
+    private void openAddContactDialog(UserItem item) {
+        String messageTemplate = getString(R.string.add_contact_confirmation);
+        String message = String.format(messageTemplate, item.getName());
+        String titleTemplate = getString(R.string.add_contact_dialog_title);
+        String title = String.format(titleTemplate, item.getName());
+
+        Bundle args = new Bundle();
+        args.putString(AlertDialogFragment.DIALOG_MESSAGE_KEY, message);
+        args.putString(AlertDialogFragment.DIALOG_TITLE_KEY, title);
+        args.putBoolean(AlertDialogFragment.DIALOG_HAS_NEGATIVE_BUTTON, true);
+
+        AlertDialogFragment dialogFragment = new AlertDialogFragment(new DialogResultListener() {
+            @Override
+            public void onOk() {
+                viewModel.createChatWithUser(item.getId());
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onDismiss() {
+            }
+        });
+        dialogFragment.setArguments(args);
+        dialogFragment.show(getChildFragmentManager(), null);
     }
 }

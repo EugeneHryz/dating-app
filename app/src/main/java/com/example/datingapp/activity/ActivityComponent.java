@@ -1,6 +1,8 @@
 package com.example.datingapp.activity;
 
 import com.example.datingapp.ApplicationComponent;
+import com.example.datingapp.conversation.ConversationActivity;
+import com.example.datingapp.home.ChatListFragment;
 import com.example.datingapp.home.HomeActivity;
 import com.example.datingapp.login.LogInFragment;
 import com.example.datingapp.login.StartupActivity;
@@ -26,10 +28,14 @@ public interface ActivityComponent {
 
     void inject(SearchPeopleActivity activity);
 
+    void inject(ConversationActivity activity);
+
 
     void inject(SignUpFragment fragment);
 
     void inject(LogInFragment fragment);
 
     void inject(PeopleNearbyFragment fragment);
+
+    void inject(ChatListFragment fragment);
 }

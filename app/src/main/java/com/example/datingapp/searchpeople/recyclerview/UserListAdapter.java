@@ -30,7 +30,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListItemViewHolder
     @Override
     public UserListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.user_list_item, parent, false);
+                .inflate(R.layout.user_nearby_list_item, parent, false);
 
         return new UserListItemViewHolder(view);
     }
@@ -39,14 +39,14 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListItemViewHolder
     public void onBindViewHolder(@NonNull UserListItemViewHolder holder, int position) {
         View view = holder.getView();
         TextView name = view.findViewById(R.id.username);
-//        TextView distance = view.findViewById(R.id.distance);
+        TextView distance = view.findViewById(R.id.distance);
 
         if (position >= items.size()) return;
 
         UserItem item = items.get(position);
         name.setText(item.getName());
-//        distance.setText(item.getDistance());
-//        view.setOnClickListener(v -> callback.onContactItemClicked(item.getId()));
+        distance.setText(item.getDistance());
+        view.setOnClickListener(v -> callback.onContactItemClicked(item));
     }
 
     @Override
@@ -77,6 +77,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListItemViewHolder
 
     public interface Callback {
 
-        void onContactItemClicked(Long contactId);
+        void onContactItemClicked(UserItem userItem);
     }
 }

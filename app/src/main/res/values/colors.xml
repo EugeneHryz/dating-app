@@ -63,5 +63,11 @@
 
     <color name="theme_light_icon_color">#D1748A</color>
 
+    <color name="light_text_color">#B3A6A7</color>
+
+    <color name="incoming_msg_bubble_color">#F1DADA</color>
+    <color name="outgoing_msg_bubble_color">#E6869D</color>
+    <color name="out_msg_timestamp_color">#dfdfdf</color>
+
     <color name="animated_circle">#B8447A</color>
 </resources>

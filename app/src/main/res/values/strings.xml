@@ -20,6 +20,12 @@
     <string name="location_is_disabled">Location is disabled</string>
     <string name="enable_location_suggestion">Would you like to enable it?</string>
 
+    <string name="add_contact_dialog_title">Add %s</string>
+    <string name="add_contact_confirmation">Do you really want to add %s to your contact list?</string>
+
+    <string name="meters_unit">m</string>
+    <string name="kilometers_unit">km</string>
+
     <string name="password_too_short">Password must be at least 8 characters long</string>
     <string name="passwords_not_equal">Passwords do not match</string>
     <string name="password_too_weak">Password is too weak</string>
@@ -46,8 +52,11 @@
     <string name="start_search_action">Start search</string>
     <string name="intro_to_search_description">To search people nearby press Start search button</string>
     <string name="no_people_nearby">No people found nearby</string>
+    <string name="no_chats_added">You have no chats :(</string>
+    <string name="no_messages_description">You have no messages to show</string>
 
-    <string name="add_contact_intro_message">In order to communicate with someone you both need to add each other to your contact lists.\nTo do this you need to meet in person with your peer and scan each other\'s qr codes.\n\nPlease, provide all necessary permissions</string>
+    <string name="new_message_hint">Enter new message</string>
+
 
     <string name="options_menu_item">Options</string>
 
@@ -57,5 +66,6 @@
     <string name="dialog_contact_disconnected_msg">Contact disconnected. You need to reconnect to continue messaging</string>
     <string name="dialog_contact_offline_msg">First you need to establish a connection with a contact</string>
     <string name="dialog_ok_button">OK</string>
+    <string name="dialog_no_button">NO</string>
 
 </resources>

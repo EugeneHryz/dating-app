@@ -17,6 +17,7 @@ public class AlertDialogFragment extends DialogFragment {
 
     public static final String DIALOG_MESSAGE_KEY = "dialog_message_key";
     public static final String DIALOG_TITLE_KEY = "dialog_title_key";
+    public static final String DIALOG_HAS_NEGATIVE_BUTTON = "dialog_has_negative_button";
 
     private final DialogResultListener listener;
 
@@ -27,27 +28,34 @@ public class AlertDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        int messageResId = R.string.dialog_generic_error_msg;
-        int titleResId = R.string.dialog_title_alert;
+        String dialogMessage = getString(R.string.dialog_generic_error_msg);
+        String dialogTitle = getString(R.string.dialog_title_alert);
+        boolean hasNegativeButton = false;
         Bundle args = getArguments();
         if (args != null) {
-            messageResId = args.getInt(DIALOG_MESSAGE_KEY);
-            titleResId = args.getInt(DIALOG_TITLE_KEY);
+            dialogMessage = args.getString(DIALOG_MESSAGE_KEY);
+            dialogTitle = args.getString(DIALOG_TITLE_KEY);
+            hasNegativeButton = args.getBoolean(DIALOG_HAS_NEGATIVE_BUTTON);
         }
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext())
-                .setTitle(titleResId)
-                .setMessage(messageResId)
+                .setTitle(dialogTitle)
+                .setMessage(dialogMessage)
                 .setPositiveButton(R.string.dialog_ok_button, (dialog, which) -> {
                     listener.onOk();
                 });
+        if (hasNegativeButton) {
+            dialogBuilder.setNegativeButton(R.string.dialog_no_button, (dialog, which) -> {
+                listener.onCancel();
+            });
+        }
 
         return dialogBuilder.create();
     }
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
-        listener.onDismissed();
+        listener.onDismiss();
         super.onDismiss(dialog);
     }
 }

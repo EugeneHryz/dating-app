@@ -6,12 +6,12 @@ public class UserItem {
 
     private Long id;
     private String name;
-    private Long distance;
+    private String distance;
 
     public UserItem() {
     }
 
-    public UserItem(Long id, String name, Long distance) {
+    public UserItem(Long id, String name, String distance) {
         this.id = id;
         this.name = name;
         this.distance = distance;
@@ -33,11 +33,11 @@ public class UserItem {
         this.name = name;
     }
 
-    public Long getDistance() {
+    public String getDistance() {
         return distance;
     }
 
-    public void setDistance(Long distance) {
+    public void setDistance(String distance) {
         this.distance = distance;
     }
 

@@ -23,6 +23,7 @@ import com.example.datingapp.activity.ActivityComponent;
 import com.example.datingapp.activity.BaseActivity;
 import com.example.datingapp.activity.RequestCode;
 import com.example.datingapp.login.StartupActivity;
+import com.example.datingapp.searchpeople.SearchPeopleActivity;
 import com.example.datingapp.service.LocationUpdateService;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
@@ -31,7 +32,6 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
-import com.example.datingapp.searchpeople.SearchPeopleActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
@@ -74,6 +74,7 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
 
         viewModel.getState().observe(this, this::handleStateChange);
 
+        showInitialFragment(new ChatListFragment());
         getLocationPermission();
     }
 
@@ -102,7 +103,8 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
 
         switch (requestCode) {
             case RequestCode.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     Log.d(TAG, "User granted the permission");
                     checkLocationSettings();
                 }
@@ -162,9 +164,7 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
         Task<LocationSettingsResponse> task = settingsClient.checkLocationSettings(
                 settingsRequestBuilder.build());
 
-        task.addOnSuccessListener(locationSettingsResponse -> {
-            startLocationService();
-        });
+        task.addOnSuccessListener(locationSettingsResponse -> startLocationService());
         task.addOnFailureListener(e -> {
             if (e instanceof ResolvableApiException) {
                 ResolvableApiException resolvableApiException = (ResolvableApiException) e;

@@ -31,6 +31,8 @@ public class SearchPeopleActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_people_activity);
 
+        viewModel.getState().observe(this, this::handleStateChange);
+
         setupActionBar();
         showInitialFragment(new PeopleNearbyFragment());
     }
@@ -45,6 +47,13 @@ public class SearchPeopleActivity extends BaseActivity {
             default:
         }
         return true;
+    }
+
+    private void handleStateChange(SearchPeopleViewModel.State state) {
+        if (state == SearchPeopleViewModel.State.ADDED_CONTACT) {
+            System.out.println("added contact. finishing activity...");
+            supportFinishAfterTransition();
+        }
     }
 
     private void setupActionBar() {
