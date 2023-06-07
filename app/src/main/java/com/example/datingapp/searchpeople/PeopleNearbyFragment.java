@@ -1,6 +1,10 @@
 package com.example.datingapp.searchpeople;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +23,9 @@ import com.example.datingapp.searchpeople.recyclerview.UserListAdapter;
 import com.example.datingapp.view.MessengerRecyclerView;
 import com.example.datingapp.view.SearchingAnimation;
 
-import javax.inject.Inject;
-
 public class PeopleNearbyFragment extends BaseFragment {
 
     private static final String TAG = PeopleNearbyFragment.class.getName();
-
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
 
     private SearchPeopleViewModel viewModel;
 
@@ -37,10 +36,13 @@ public class PeopleNearbyFragment extends BaseFragment {
     private MessengerRecyclerView userListView;
     private UserListAdapter adapter;
 
+    private Vibrator vibrator;
+
     @Override
     protected void injectFragment(ActivityComponent activityComponent) {
         activityComponent.inject(this);
-        viewModel = new ViewModelProvider(this, viewModelFactory).get(SearchPeopleViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(SearchPeopleViewModel.class);
+        vibrator = (Vibrator) requireActivity().getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Nullable
@@ -72,9 +74,24 @@ public class PeopleNearbyFragment extends BaseFragment {
             searchingAnimation.startAnimation();
 
         } else if (state == SearchPeopleViewModel.State.FOUND) {
+            vibrate(500);
             searchingAnimation.stopAnimation();
             userListView.setVisibility(View.VISIBLE);
             adapter.setItems(viewModel.getUsers());
+        } else {
+            searchingAnimation.stopAnimation();
+            userListView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void vibrate(long duration) {
+        int amp = 255;
+        if (vibrator.hasVibrator()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(duration, amp));
+            } else {
+                vibrator.vibrate(duration);
+            }
         }
     }
 
@@ -83,7 +100,8 @@ public class PeopleNearbyFragment extends BaseFragment {
         userListView.setNoItemsDescription(R.string.no_people_nearby);
 
         userListView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        adapter = new UserListAdapter(null);
+        adapter = new UserListAdapter(userItem -> {
+        });
 
         userListView.setAdapter(adapter);
     }

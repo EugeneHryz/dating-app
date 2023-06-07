@@ -35,6 +35,9 @@
     <string name="invalid_password">Invalid password</string>
     <string name="non_existing_user">Account with that username does not exist</string>
 
+    <string name="meters_unit">m</string>
+    <string name="kilometers_unit">km</string>
+
     <string name="menu_contact_list">Contacts</string>
     <string name="menu_log_out">Log out</string>
     <string name="menu_settings">Settings</string>
@@ -46,10 +49,12 @@
     <string name="start_search_action">Start search</string>
     <string name="intro_to_search_description">To search people nearby press Start search button</string>
     <string name="no_people_nearby">No people found nearby</string>
+    <string name="distance_filter_option">Distance</string>
+    <string name="country_filter_option">Country</string>
 
     <string name="add_contact_intro_message">In order to communicate with someone you both need to add each other to your contact lists.\nTo do this you need to meet in person with your peer and scan each other\'s qr codes.\n\nPlease, provide all necessary permissions</string>
 
-    <string name="options_menu_item">Options</string>
+    <string name="options_menu_filter">Filter</string>
 
     <string name="dialog_title_notice">Notice</string>
     <string name="dialog_title_alert">Alert</string>
@@ -57,5 +62,10 @@
     <string name="dialog_contact_disconnected_msg">Contact disconnected. You need to reconnect to continue messaging</string>
     <string name="dialog_contact_offline_msg">First you need to establish a connection with a contact</string>
     <string name="dialog_ok_button">OK</string>
+    <string name="first_distance_option">50m</string>
+    <string name="second_distance_option">200m</string>
+    <string name="third_distance_option">500m</string>
+    <string name="fourth_distance_option">1km</string>
+    <string name="item_not_selected">Not selected</string>
 
 </resources>

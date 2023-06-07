@@ -4,6 +4,7 @@ import com.example.datingapp.ApplicationComponent;
 import com.example.datingapp.home.HomeActivity;
 import com.example.datingapp.login.LogInFragment;
 import com.example.datingapp.login.StartupActivity;
+import com.example.datingapp.searchpeople.PeopleFilterDialogFragment;
 import com.example.datingapp.searchpeople.PeopleNearbyFragment;
 import com.example.datingapp.searchpeople.SearchPeopleActivity;
 import com.example.datingapp.signup.SignUpActivity;
@@ -32,4 +33,6 @@ public interface ActivityComponent {
     void inject(LogInFragment fragment);
 
     void inject(PeopleNearbyFragment fragment);
+
+    void inject(PeopleFilterDialogFragment fragment);
 }

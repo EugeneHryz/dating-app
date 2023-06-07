@@ -6,6 +6,6 @@ import retrofit2.http.POST;
 
 public interface GeolocationService {
 
-    @POST("/geolocation")
+    @POST("/api/geolocation")
     Call<Void> updateLocation(@Body LocationRequestDto locationRequestDto);
 }

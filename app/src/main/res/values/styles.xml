@@ -9,9 +9,21 @@
         <item name="android:textColor">@color/md_theme_light_onPrimary</item>
     </style>
 
+    <style name="TextSize16">
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="TextSize16.Gray">
+        <item name="android:textColor">@color/md_theme_dark_outline</item>
+    </style>
+
     <style name="TextSize18">
         <item name="android:textSize">@dimen/text_size_18</item>
 <!--        <item name="android:textColor">@android:color/tab_indicator_text</item>-->
+    </style>
+
+    <style name="TextSize18.Gray">
+        <item name="android:textColor">@color/md_theme_dark_outline</item>
     </style>
 
     <style name="TextSize22">
@@ -19,18 +31,26 @@
         <item name="android:textColor">@color/md_theme_dark_onPrimary</item>
     </style>
 
-    <style name="TextSize22.gray">
+    <style name="TextSize22.Gray">
         <item name="android:textColor">@color/md_theme_dark_outline</item>
     </style>
 
-    <style name="AppTheme.ActionBar.Light" parent="Widget.Material3.Toolbar.OnSurface">
-        <item name="android:background">@color/md_theme_light_primary</item>
+    <style name="Widget.PrimaryActionBar" parent="Widget.AppCompat.ActionBar.Solid">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:backgroundStacked">?attr/colorPrimary</item>
+        <item name="android:backgroundSplit">?attr/colorPrimary</item>
         <item name="titleTextColor">@color/md_theme_light_onPrimary</item>
-        <item name="navigationIconTint">@color/md_theme_light_onPrimary</item>
-<!--        <item name="android:textColorPrimaryInverse">@android:color/white</item>-->
-<!--        <item name="iconTint">@color/md_theme_light_onPrimary</item>-->
-<!--        <item name="android:titleTextStyle">@color/md_theme_light_onPrimary</item>-->
-<!--        <item name="android:titleTextColor">@color/md_theme_light_onPrimary</item>-->
+        <item name="colorControlNormal">@color/md_theme_light_onPrimary</item>
+    </style>
+
+<!--    <style name="TextSize26">-->
+<!--        <item name="android:textSize">@dimen/text_size_22</item>-->
+<!--        <item name="android:textColor">@color/md_theme_dark_onPrimary</item>-->
+<!--    </style>-->
+
+    <style name="Seekbar" parent="Widget.AppCompat.SeekBar.Discrete">
+        <item name="android:thumbTint">@color/md_theme_light_primary</item>
+        <item name="android:progressTint">@color/theme_light_icon_color</item>
     </style>
 
     <style name="ShapeAppearance.App.Fab" parent="ShapeAppearance.MaterialComponents.SmallComponent">
@@ -38,23 +58,4 @@
         <item name="cornerSize">@dimen/fab_corner_radius</item>
     </style>
 
-<!--    <style name="TextMessage">-->
-<!--        <item name="android:textIsSelectable">true</item>-->
-<!--        <item name="android:textSize">@dimen/small_text_size</item>-->
-<!--        <item name="android:textColor">?android:attr/textColorPrimary</item>-->
-<!--    </style>-->
-
-<!--    <style name="TextMessage.Time">-->
-<!--        <item name="android:textIsSelectable">false</item>-->
-<!--        <item name="android:textSize">@dimen/tiny_text_size</item>-->
-<!--        <item name="android:textColor">?android:attr/textColorTertiary</item>-->
-<!--        <item name="android:maxLines">1</item>-->
-<!--    </style>-->
-
-<!--    <style name="TextMessage.Date">-->
-<!--        <item name="android:textIsSelectable">false</item>-->
-<!--        <item name="android:textSize">@dimen/small_text_size</item>-->
-<!--        <item name="android:textColor">?android:attr/textColorTertiary</item>-->
-<!--        <item name="android:maxLines">1</item>-->
-<!--    </style>-->
 </resources>
