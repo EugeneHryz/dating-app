@@ -18,12 +18,19 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.datingapp.MessengerApplication;
 import com.example.datingapp.R;
 import com.example.datingapp.activity.ActivityComponent;
 import com.example.datingapp.activity.BaseActivity;
 import com.example.datingapp.activity.RequestCode;
-import com.example.datingapp.login.StartupActivity;
+import com.example.datingapp.client.auth.AuthenticatedUser;
+import com.example.datingapp.lifecycle.exception.ServiceException;
+import com.example.datingapp.messaging.MessageMapper;
+import com.example.datingapp.searchpeople.SearchPeopleActivity;
 import com.example.datingapp.service.LocationUpdateService;
+import com.example.datingapp.service.MessagingService;
+import com.example.datingapp.system.NetworkManager;
+import com.example.datingapp.system.TimeManager;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -31,7 +38,6 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
-import com.example.datingapp.searchpeople.SearchPeopleActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
@@ -50,6 +56,13 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    MessageMapper messageMapper;
+    @Inject
+    TimeManager timeManager;
+    @Inject
+    NetworkManager networkManager;
+
     @Override
     protected void injectActivity(ActivityComponent component) {
         component.inject(this);
@@ -72,8 +85,9 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
         drawerToggle.syncState();
         searchPeopleButton.setOnClickListener(v -> startSearchPeopleActivity());
 
-        viewModel.getState().observe(this, this::handleStateChange);
-
+        showInitialFragment(new ChatsFragment());
+        startMessagingService();
+        startNetworkManagerService();
         getLocationPermission();
     }
 
@@ -100,12 +114,10 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode) {
-            case RequestCode.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "User granted the permission");
-                    checkLocationSettings();
-                }
+        if (requestCode == RequestCode.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "User granted the permission");
+                checkLocationSettings();
             }
         }
     }
@@ -125,6 +137,25 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
         super.onDestroy();
         Log.d(TAG, "onDestroy");
         stopLocationService();
+        stopMessagingService();
+        stopNetworkManagerService();
+    }
+
+    private void startMessagingService() {
+        Intent intent = new Intent(this, MessagingService.class);
+        MessengerApplication application = (MessengerApplication) getApplication();
+        AuthenticatedUser user = application.getAuthenticatedUser();
+        intent.putExtra(MessagingService.USER_TOPIC_KEY, user.getUsername());
+
+        startService(intent);
+    }
+
+    private void startNetworkManagerService() {
+        try {
+            networkManager.startService();
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void getLocationPermission() {
@@ -151,6 +182,19 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
     private void stopLocationService() {
         Intent intent = new Intent(this, LocationUpdateService.class);
         stopService(intent);
+    }
+
+    private void stopMessagingService() {
+        Intent intent = new Intent(this, MessagingService.class);
+        stopService(intent);
+    }
+
+    private void stopNetworkManagerService() {
+        try {
+            networkManager.stopService();
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void checkLocationSettings() {
@@ -200,20 +244,8 @@ public class HomeActivity extends BaseActivity implements ActivityCompat.OnReque
         return toolbar;
     }
 
-    private void handleStateChange(HomeViewModel.State state) {
-        if (state == HomeViewModel.State.NOT_AUTHENTICATED) {
-            startStartupActivity();
-        }
-    }
-
     private void startSearchPeopleActivity() {
         Intent intent = new Intent(this, SearchPeopleActivity.class);
-        startActivity(intent);
-    }
-
-    private void startStartupActivity() {
-        Intent intent = new Intent(this, StartupActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 }

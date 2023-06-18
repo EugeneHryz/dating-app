@@ -6,13 +6,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.datingapp.client.Constants;
+import com.example.datingapp.client.chat.ChatService;
+import com.example.datingapp.client.chat.CreatePrivateChatDto;
 import com.example.datingapp.client.dictionary.CountryDto;
 import com.example.datingapp.client.dictionary.DictionaryService;
-import com.example.datingapp.client.user.UserDto;
+import com.example.datingapp.client.user.UserNearbyDto;
 import com.example.datingapp.client.user.UserService;
 import com.example.datingapp.common.TextFormatter;
 import com.example.datingapp.io.IoExecutor;
-import com.example.datingapp.searchpeople.recyclerview.UserItem;
+import com.example.datingapp.searchpeople.recyclerview.UserNearbyItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +37,15 @@ public class SearchPeopleViewModel extends ViewModel {
 
     private final UserService userService;
     private final DictionaryService dictionaryService;
+    private final ChatService chatService;
 
     enum State {
         SEARCHING,
         FOUND,
-        NETWORK_ERROR
+        NETWORK_ERROR,
+        CREATING_CHAT,
+        FAILED_TO_CREATE_CHAT,
+        CHAT_CREATED
     }
 
     private final MutableLiveData<State> state = new MutableLiveData<>();
@@ -47,21 +53,47 @@ public class SearchPeopleViewModel extends ViewModel {
 
     private CountryDto selectedCountry;
     private int selectedDistance;
-    private List<UserDto> users;
+    private List<UserNearbyDto> users;
 
     @Inject
     public SearchPeopleViewModel(TextFormatter textFormatter,
                                  @IoExecutor Executor ioExecutor,
-                                 UserService userService, DictionaryService dictionaryService) {
+                                 UserService userService,
+                                 DictionaryService dictionaryService,
+                                 ChatService chatService) {
         this.textFormatter = textFormatter;
         this.ioExecutor = ioExecutor;
         this.userService = userService;
         this.dictionaryService = dictionaryService;
+        this.chatService = chatService;
+    }
+
+    public void createChat(Long userId) {
+        ioExecutor.execute(() -> {
+            state.postValue(State.CREATING_CHAT);
+
+            CreatePrivateChatDto requestBody = new CreatePrivateChatDto(userId);
+            chatService.createPrivateChat(requestBody).enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.code() == Constants.HTTP_SUCCESS) {
+                        state.postValue(State.CHAT_CREATED);
+                    } else {
+                        state.postValue(State.FAILED_TO_CREATE_CHAT);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.d(TAG, "Failed to perform request for creating new chat");
+                    state.postValue(State.NETWORK_ERROR);
+                }
+            });
+        });
     }
 
     public void getAllCountries() {
         ioExecutor.execute(() -> {
-
             dictionaryService.getAllCountries().enqueue(new Callback<>() {
                 @Override
                 public void onResponse(Call<List<CountryDto>> call, Response<List<CountryDto>> response) {
@@ -72,7 +104,8 @@ public class SearchPeopleViewModel extends ViewModel {
 
                 @Override
                 public void onFailure(Call<List<CountryDto>> call, Throwable t) {
-                    Log.d(TAG, "Failed to perform request for searching countries nearby");
+                    Log.d(TAG, "Failed to perform request for getting all countries");
+                    state.postValue(State.NETWORK_ERROR);
                 }
             });
         });
@@ -90,7 +123,7 @@ public class SearchPeopleViewModel extends ViewModel {
             String country = selectedCountry != null ? selectedCountry.getName() : null;
             userService.findUsersWithinRadius(selectedDistance, country).enqueue(new Callback<>() {
                 @Override
-                public void onResponse(Call<List<UserDto>> call, Response<List<UserDto>> response) {
+                public void onResponse(Call<List<UserNearbyDto>> call, Response<List<UserNearbyDto>> response) {
                     if (response.code() == Constants.HTTP_SUCCESS) {
                         users = response.body();
                         state.postValue(State.FOUND);
@@ -99,7 +132,7 @@ public class SearchPeopleViewModel extends ViewModel {
                 }
 
                 @Override
-                public void onFailure(Call<List<UserDto>> call, Throwable t) {
+                public void onFailure(Call<List<UserNearbyDto>> call, Throwable t) {
                     Log.d(TAG, "Failed to perform request for searching users nearby");
                     state.postValue(State.NETWORK_ERROR);
                 }
@@ -112,12 +145,12 @@ public class SearchPeopleViewModel extends ViewModel {
         return state;
     }
 
-    public List<UserItem> getUsers() {
-        Function<UserDto, UserItem> mapper = userDto -> {
-            UserItem item = new UserItem();
-            item.setName(userDto.getUsername());
-            item.setDistance(textFormatter.formatDistanceUnits(userDto.getDistance()));
-            item.setId(userDto.getId());
+    public List<UserNearbyItem> getUsers() {
+        Function<UserNearbyDto, UserNearbyItem> mapper = userNearbyDto -> {
+            UserNearbyItem item = new UserNearbyItem();
+            item.setName(userNearbyDto.getUsername());
+            item.setDistance(textFormatter.formatDistanceUnits(userNearbyDto.getDistance()));
+            item.setId(userNearbyDto.getId());
             return item;
         };
 

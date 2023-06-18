@@ -1,15 +1,15 @@
 package com.example.datingapp.client.user;
 
-public class UserDto {
+public class UserNearbyDto {
 
     private Long id;
     private String username;
     private Long distance;
 
-    public UserDto() {
+    public UserNearbyDto() {
     }
 
-    public UserDto(Long id, String username, Long distance) {
+    public UserNearbyDto(Long id, String username, Long distance) {
         this.id = id;
         this.username = username;
     }

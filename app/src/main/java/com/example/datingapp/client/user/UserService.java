@@ -9,6 +9,6 @@ import retrofit2.http.Query;
 public interface UserService {
 
     @GET("/api/user/getUsersByLocation")
-    Call<List<UserDto>> findUsersWithinRadius(@Query("radius") int radius,
-                                              @Query("country") String countryName);
+    Call<List<UserNearbyDto>> findUsersWithinRadius(@Query("radius") int radius,
+                                                    @Query("country") String countryName);
 }

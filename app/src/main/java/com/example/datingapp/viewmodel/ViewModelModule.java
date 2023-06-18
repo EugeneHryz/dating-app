@@ -3,6 +3,7 @@ package com.example.datingapp.viewmodel;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.datingapp.chat.ConversationViewModel;
 import com.example.datingapp.home.HomeViewModel;
 import com.example.datingapp.login.StartupViewModel;
 import com.example.datingapp.searchpeople.SearchPeopleViewModel;
@@ -41,6 +42,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ClassKey(SearchPeopleViewModel.class)
     public abstract ViewModel bindSearchPeopleViewModel(SearchPeopleViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ClassKey(ConversationViewModel.class)
+    public abstract ViewModel bindConversationViewModel(ConversationViewModel viewModel);
 
     @Binds
     @Singleton

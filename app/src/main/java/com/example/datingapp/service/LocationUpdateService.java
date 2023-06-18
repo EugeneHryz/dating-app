@@ -26,6 +26,7 @@ import com.example.datingapp.client.geolocation.GeolocationService;
 import com.example.datingapp.client.geolocation.LocationRequestDto;
 import com.example.datingapp.home.HomeActivity;
 import com.example.datingapp.io.IoExecutor;
+import com.example.datingapp.system.TimeManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -57,6 +58,8 @@ public class LocationUpdateService extends Service {
     @Inject
     @IoExecutor
     Executor ioExecutor;
+    @Inject
+    TimeManager timeManager;
 
     @Nullable
     @Override
@@ -66,7 +69,6 @@ public class LocationUpdateService extends Service {
 
     @Override
     public void onCreate() {
-        Log.d(TAG, "onCreate");
         super.onCreate();
 
         MessengerApplication app = (MessengerApplication) getApplication();
@@ -92,8 +94,6 @@ public class LocationUpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand");
-
         prepareForegroundNotification();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -107,7 +107,6 @@ public class LocationUpdateService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 

@@ -13,13 +13,17 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.datingapp.R;
 import com.example.datingapp.activity.ActivityComponent;
+import com.example.datingapp.fragment.AlertDialogFragment;
 import com.example.datingapp.fragment.BaseFragment;
-import com.example.datingapp.searchpeople.recyclerview.UserListAdapter;
+import com.example.datingapp.fragment.DialogResultListener;
+import com.example.datingapp.searchpeople.recyclerview.UserNearbyItem;
+import com.example.datingapp.searchpeople.recyclerview.UserNearbyListAdapter;
 import com.example.datingapp.view.MessengerRecyclerView;
 import com.example.datingapp.view.SearchingAnimation;
 
@@ -34,7 +38,7 @@ public class PeopleNearbyFragment extends BaseFragment {
 
     private SearchingAnimation searchingAnimation;
     private MessengerRecyclerView userListView;
-    private UserListAdapter adapter;
+    private UserNearbyListAdapter adapter;
 
     private Vibrator vibrator;
 
@@ -42,6 +46,7 @@ public class PeopleNearbyFragment extends BaseFragment {
     protected void injectFragment(ActivityComponent activityComponent) {
         activityComponent.inject(this);
         viewModel = new ViewModelProvider(requireActivity()).get(SearchPeopleViewModel.class);
+
         vibrator = (Vibrator) requireActivity().getSystemService(Context.VIBRATOR_SERVICE);
     }
 
@@ -78,7 +83,11 @@ public class PeopleNearbyFragment extends BaseFragment {
             searchingAnimation.stopAnimation();
             userListView.setVisibility(View.VISIBLE);
             adapter.setItems(viewModel.getUsers());
-        } else {
+
+        } else if (state == SearchPeopleViewModel.State.CHAT_CREATED) {
+            requireActivity().supportFinishAfterTransition();
+
+        } else if (state == SearchPeopleViewModel.State.NETWORK_ERROR){
             searchingAnimation.stopAnimation();
             userListView.setVisibility(View.VISIBLE);
         }
@@ -98,11 +107,42 @@ public class PeopleNearbyFragment extends BaseFragment {
     private void setupRecyclerView() {
         userListView.setNoItemsIcon(R.drawable.round_not_listed_location_24);
         userListView.setNoItemsDescription(R.string.no_people_nearby);
+        userListView.setClipToPadding(false);
+        float paddingInPixels = getResources().getDimension(R.dimen.list_large_bottom_padding);
+        userListView.setPadding(0, 0, 0, (int) paddingInPixels);
 
         userListView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        adapter = new UserListAdapter(userItem -> {
-        });
+        adapter = new UserNearbyListAdapter(this::handleItemClick);
 
         userListView.setAdapter(adapter);
+    }
+
+    private void handleItemClick(UserNearbyItem userNearbyItem) {
+        DialogFragment dialogFragment = new AlertDialogFragment(new DialogResultListener() {
+            @Override
+            public void onOk() {
+                viewModel.createChat(userNearbyItem.getId());
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onDismissed() {
+            }
+        });
+        Bundle args = new Bundle();
+
+        String messageTemplate = getString(R.string.dialog_add_contact_confirmation);
+        String message = String.format(messageTemplate, userNearbyItem.getName());
+        String titleTemplate = getString(R.string.dialog_add_contact_title);
+        String title = String.format(titleTemplate, userNearbyItem.getName());
+        args.putString(AlertDialogFragment.DIALOG_MESSAGE_KEY, message);
+        args.putString(AlertDialogFragment.DIALOG_TITLE_KEY, title);
+        args.putBoolean(AlertDialogFragment.DIALOG_HAS_NEGATIVE_BUTTON_KEY, true);
+        dialogFragment.setArguments(args);
+
+        dialogFragment.show(getChildFragmentManager(), null);
     }
 }

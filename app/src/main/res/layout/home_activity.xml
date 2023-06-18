@@ -43,6 +43,17 @@
             app:fabCustomSize="@dimen/fab_size"
             app:maxImageSize="@dimen/fab_icon_size"/>
 
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/send_simple_message"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom|start"-->
+<!--            android:layout_marginBottom="@dimen/fab_margin"-->
+<!--            android:layout_marginStart="@dimen/fab_margin"-->
+<!--            app:srcCompat="@drawable/round_send_24"-->
+<!--            app:fabCustomSize="@dimen/fab_size"-->
+<!--            app:maxImageSize="@dimen/fab_icon_size"/>-->
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <include

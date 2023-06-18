@@ -3,6 +3,8 @@
     package="com.eugene.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include only if your app benefits from precise location access. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -22,8 +24,12 @@
 
         <service
             android:name="com.example.datingapp.service.LocationUpdateService"
-            android:enabled="true"
-            android:exported="true">
+            android:enabled="true">
+        </service>
+
+        <service
+            android:name="com.example.datingapp.service.MessagingService"
+            android:enabled="true">
         </service>
 
         <activity
@@ -36,10 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.datingapp.searchpeople.SearchPeopleActivity"
-            android:label="@string/search_people_activity_name"
-            android:exported="false" />
+
 
         <activity
             android:name="com.example.datingapp.signup.SignUpActivity"
@@ -53,6 +56,14 @@
             android:name="com.example.datingapp.home.HomeActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.datingapp.searchpeople.SearchPeopleActivity"
+            android:label="@string/search_people_activity_name"
+            android:exported="false" />
+        <activity
+            android:name="com.example.datingapp.chat.ConversationActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateUnchanged"/>
 
 <!--        <provider-->
 <!--            android:name="androidx.startup.InitializationProvider"-->

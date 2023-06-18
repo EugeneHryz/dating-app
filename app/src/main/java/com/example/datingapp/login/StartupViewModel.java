@@ -1,10 +1,12 @@
 package com.example.datingapp.login;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.datingapp.MessengerApplication;
 import com.example.datingapp.client.Constants;
 import com.example.datingapp.client.auth.AuthenticatedUser;
 import com.example.datingapp.client.auth.AuthenticationService;
@@ -29,6 +31,7 @@ public class StartupViewModel extends ViewModel {
     private final LifecycleManager lifecycleManager;
     private final AuthenticationService authService;
     private final TokenService tokenService;
+    private final MessengerApplication application;
 
     enum State {
         NETWORK_ERROR,
@@ -44,11 +47,13 @@ public class StartupViewModel extends ViewModel {
     public StartupViewModel(@IoExecutor Executor ioExecutor,
                             LifecycleManager lifecycleManager,
                             AuthenticationService authService,
-                            TokenService tokenService) {
+                            TokenService tokenService,
+                            Application application) {
         this.ioExecutor = ioExecutor;
         this.lifecycleManager = lifecycleManager;
         this.authService = authService;
         this.tokenService = tokenService;
+        this.application = (MessengerApplication) application;
     }
 
     void signIn(String login, String password) {
@@ -58,13 +63,14 @@ public class StartupViewModel extends ViewModel {
 
             tokenService.deleteToken();
             LoginRequest loginRequest = new LoginRequest(login, password);
-            authService.login(loginRequest).enqueue(new Callback<AuthenticatedUser>() {
+            authService.login(loginRequest).enqueue(new Callback<>() {
                 @Override
                 public void onResponse(Call<AuthenticatedUser> call, Response<AuthenticatedUser> response) {
                     if (response.code() == Constants.HTTP_SUCCESS) {
                         AuthenticatedUser user = response.body();
                         if (user != null) {
                             tokenService.updateToken(user.getToken());
+                            application.setAuthenticatedUser(user);
                             state.postValue(State.LOGGED_IN);
                         }
                     } else if (response.code() == Constants.HTTP_FORBIDDEN) {

@@ -1,10 +1,12 @@
 package com.example.datingapp.signup;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.datingapp.MessengerApplication;
 import com.example.datingapp.client.Constants;
 import com.example.datingapp.client.auth.AuthenticatedUser;
 import com.example.datingapp.client.auth.AuthenticationService;
@@ -27,6 +29,7 @@ public class SignUpViewModel extends ViewModel {
     private final Executor ioExecutor;
     private final AuthenticationService authService;
     private final TokenService tokenService;
+    private final MessengerApplication application;
 
     enum State {
         CREATING,
@@ -40,10 +43,12 @@ public class SignUpViewModel extends ViewModel {
     @Inject
     public SignUpViewModel(@IoExecutor Executor executor,
                            AuthenticationService authService,
-                           TokenService tokenService) {
+                           TokenService tokenService,
+                           Application application) {
         ioExecutor = executor;
         this.authService = authService;
         this.tokenService = tokenService;
+        this.application = (MessengerApplication) application;
     }
 
     public void createAccount(String login, String password) {
@@ -62,6 +67,7 @@ public class SignUpViewModel extends ViewModel {
                         AuthenticatedUser user = response.body();
                         if (user != null) {
                             tokenService.updateToken(user.getToken());
+                            application.setAuthenticatedUser(user);
                             state.postValue(State.CREATED);
                         }
                     } else if (response.code() == Constants.HTTP_CONFLICT) {

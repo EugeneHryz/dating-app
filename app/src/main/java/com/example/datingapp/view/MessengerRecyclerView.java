@@ -12,6 +12,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
@@ -104,7 +105,27 @@ public class MessengerRecyclerView extends FrameLayout {
         }
     }
 
+    public void setClipToPadding(boolean clip) {
+        recyclerView.setClipToPadding(clip);
+    }
+
+    public void setPadding(int left, int top, int right, int bottom) {
+        recyclerView.setPadding(left, top, right, bottom);
+    }
+
     public void scrollToPosition(int pos) {
         recyclerView.scrollToPosition(pos);
+    }
+
+    public void addScrollListener(RecyclerView.OnScrollListener scrollListener) {
+        recyclerView.addOnScrollListener(scrollListener);
+    }
+
+    public void disableAnimation() {
+        recyclerView.setItemAnimator(null);
+    }
+
+    public void enableAnimation() {
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 }
