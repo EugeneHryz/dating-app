@@ -4,5 +4,7 @@ public interface DialogResultListener {
 
     void onOk();
 
+    void onCancel();
+
     void onDismissed();
 }

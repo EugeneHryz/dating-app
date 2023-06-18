@@ -24,5 +24,4 @@ public class AndroidSystemModule {
 	Executor provideEventExecutor(AndroidExecutor androidExecutor) {
 		return androidExecutor::runOnUiThread;
 	}
-
 }

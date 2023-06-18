@@ -12,6 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/app_name"
-        style="@style/AppTheme.ActionBar.Light" />
+        android:theme="@style/Widget.PrimaryActionBar" />
 
 </com.google.android.material.appbar.AppBarLayout>

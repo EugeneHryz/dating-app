@@ -2,16 +2,16 @@ package com.example.datingapp.searchpeople.recyclerview;
 
 import java.util.Objects;
 
-public class UserItem {
+public class UserNearbyItem {
 
     private Long id;
     private String name;
-    private Long distance;
+    private String distance;
 
-    public UserItem() {
+    public UserNearbyItem() {
     }
 
-    public UserItem(Long id, String name, Long distance) {
+    public UserNearbyItem(Long id, String name, String distance) {
         this.id = id;
         this.name = name;
         this.distance = distance;
@@ -33,11 +33,11 @@ public class UserItem {
         this.name = name;
     }
 
-    public Long getDistance() {
+    public String getDistance() {
         return distance;
     }
 
-    public void setDistance(Long distance) {
+    public void setDistance(String distance) {
         this.distance = distance;
     }
 
@@ -45,10 +45,10 @@ public class UserItem {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserItem userItem = (UserItem) o;
-        return Objects.equals(id, userItem.id)
-                && Objects.equals(name, userItem.name)
-                && Objects.equals(distance, userItem.distance);
+        UserNearbyItem userNearbyItem = (UserNearbyItem) o;
+        return Objects.equals(id, userNearbyItem.id)
+                && Objects.equals(name, userNearbyItem.name)
+                && Objects.equals(distance, userNearbyItem.distance);
     }
 
     @Override

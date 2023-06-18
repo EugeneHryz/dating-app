@@ -1,5 +1,7 @@
 package com.example.datingapp.client;
 
+import com.example.datingapp.MessengerApplicationImpl;
+
 import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
@@ -8,27 +10,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientFactory {
 
-    private static final String API_BASE_URL = "http://192.168.100.5:8080/";
+    private static final String API_BASE_URL = "http://" + MessengerApplicationImpl.SERVER_ADDRESS + "/";
 
-    private final RequestInterceptor interceptor;
+    private final OkHttpClient okHttpClient;
 
     @Inject
-    public RetrofitClientFactory(RequestInterceptor interceptor) {
-        this.interceptor = interceptor;
+    public RetrofitClientFactory(OkHttpClient okHttpClient) {
+        this.okHttpClient = okHttpClient;
     }
 
     public Retrofit createRetrofitClient() {
-        OkHttpClient httpClient = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build();
-
         Retrofit.Builder builder =
                 new Retrofit.Builder()
                         .baseUrl(API_BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create());
 
         return builder
-                .client(httpClient)
+                .client(okHttpClient)
                 .build();
     }
 }

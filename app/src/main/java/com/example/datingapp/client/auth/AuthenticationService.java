@@ -6,12 +6,12 @@ import retrofit2.http.POST;
 
 public interface AuthenticationService {
 
-    @POST("/auth/register")
+    @POST("/api/auth/register")
     Call<AuthenticatedUser> register(@Body RegisterRequest registerRequest);
 
-    @POST("/auth/login")
+    @POST("/api/auth/login")
     Call<AuthenticatedUser> login(@Body LoginRequest loginRequest);
 
-    @POST("/auth/logout")
+    @POST("/api/auth/logout")
     Call<Void> logout();
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="@dimen/msg_bubble_outer_small_margin"
+        android:visibility="gone"
+        style="@style/TextMessage.Date"
+        tools:text="Jun 12, 2020" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginStart="@dimen/msg_bubble_outer_big_margin"
+        android:layout_marginTop="@dimen/msg_bubble_outer_small_margin"
+        android:layout_marginEnd="@dimen/msg_bubble_outer_small_margin"
+        android:layout_marginBottom="@dimen/msg_bubble_outer_small_margin"
+        android:background="@drawable/outgoing_msg"
+        android:elevation="@dimen/msg_bubble_elevation">
+
+        <com.vanniktech.emoji.EmojiTextView
+            android:id="@+id/text"
+            style="@style/TextMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/msg_text_horizontal_margin"
+            android:layout_marginTop="@dimen/msg_text_top_margin"
+            android:layout_marginEnd="@dimen/msg_text_horizontal_margin"
+            android:layout_marginBottom="@dimen/msg_text_bottom_margin"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@+id/status_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Hi! this is a sample text message. It can span multiple lines\n\n\n\nThe end" />
+
+        <LinearLayout
+            android:id="@+id/status_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/msg_text_horizontal_margin"
+            android:layout_marginEnd="@dimen/msg_text_horizontal_margin"
+            android:layout_marginBottom="@dimen/msg_text_bottom_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text">
+
+            <TextView
+                android:id="@+id/timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextMessage.Timestamp"
+                tools:text="16:08" />
+
+            <ImageView
+                android:id="@+id/message_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                app:tint="@color/out_msg_status"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/message_seen" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

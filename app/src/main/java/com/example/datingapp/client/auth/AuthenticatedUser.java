@@ -2,6 +2,7 @@ package com.example.datingapp.client.auth;
 
 public class AuthenticatedUser {
 
+    private Long id;
     private String email;
     private String username;
     private String token;
@@ -9,10 +10,18 @@ public class AuthenticatedUser {
     public AuthenticatedUser() {
     }
 
-    public AuthenticatedUser(String email, String username, String token) {
+    public AuthenticatedUser(Long id, String email, String username, String token) {
         this.email = email;
         this.username = username;
         this.token = token;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {

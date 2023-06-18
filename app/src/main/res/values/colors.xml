@@ -27,7 +27,7 @@
     <color name="md_theme_light_inverseSurface">#362F2F</color>
     <color name="md_theme_light_inversePrimary">#FFB2BA</color>
     <color name="md_theme_light_shadow">#000000</color>
-    <color name="md_theme_light_surfaceTint">#B91445</color>
+        <color name="md_theme_light_surfaceTint">#B91445</color>
     <color name="md_theme_light_outlineVariant">#D7C1C3</color>
     <color name="md_theme_light_scrim">#000000</color>
     <color name="md_theme_dark_primary">#FFB2BA</color>
@@ -63,5 +63,15 @@
 
     <color name="theme_light_icon_color">#D1748A</color>
 
-    <color name="animated_circle">#B8447A</color>
+    <color name="light_window_background">#F6F5F5</color>
+
+    <color name="incoming_msg_bubble">#F3DABE</color>
+    <color name="outgoing_msg_bubble">#E8B2C1</color>
+    <color name="out_msg_status">#910A32</color>
+
+    <color name="highlighted_message">#80F5A7C3</color>
+
+    <color name="unread_messages_bubble">#D1678D</color>
+
+    <color name="animated_circle">#B8446D</color>
 </resources>

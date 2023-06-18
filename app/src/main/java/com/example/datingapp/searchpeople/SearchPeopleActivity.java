@@ -1,6 +1,7 @@
 package com.example.datingapp.searchpeople;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -36,15 +37,26 @@ public class SearchPeopleActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.people_search_options_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        switch (itemId) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
+        if (itemId == android.R.id.home) {
+            onBackPressed();
+        } else if (itemId == R.id.action_filter) {
+            openFiltersDialog();
         }
         return true;
+    }
+
+    private void openFiltersDialog() {
+        PeopleFilterDialogFragment dialogFragment = new PeopleFilterDialogFragment();
+
+        dialogFragment.show(getSupportFragmentManager(), dialogFragment.getUniqueTag());
     }
 
     private void setupActionBar() {
